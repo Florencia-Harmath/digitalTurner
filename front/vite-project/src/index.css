@@ -1,0 +1,22 @@
+* {
+  margin: 0;
+  overflow-y: none;
+  box-sizing: border-box;
+  padding: 0;
+  font-family: 'Poppins', sans-serif;
+}
+
+:root {
+  --light-pink: #FFC0CB;
+  --pastel-pink: #FFB6C1;
+  --hot-pink: #FF69B4;
+  --coral-pink: #F88379;
+  --pale-pink: #FADADD;
+  --fuchsia-pink: #FF00FF;
+  --pink: #FFC0CB; 
+  --transparent-pink: rgba(234, 202, 207, 0.53); 
+}
+
+body {
+  background-color: var(--pale-pink);
+}

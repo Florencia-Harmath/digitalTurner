@@ -1,0 +1,51 @@
+/* Estilos principales del contenedor de turnos */
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  padding: 0 10px; /* Añadido padding horizontal para evitar que el contenido se pegue a los bordes en pantallas pequeñas */
+}
+
+/* Estilos para el mensaje de "No hay turnos programados" */
+.p {
+  text-align: center;
+  font-size: 1.2rem; /* Ajustado el tamaño de fuente para pantallas más pequeñas */
+  margin: auto;
+  padding: 15px;
+  background-color: rgb(28, 187, 185);
+  border-radius: 15px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  width: 90%; /* Ajustado el ancho para pantallas pequeñas */
+  max-width: 600px; /* Añadido un ancho máximo para evitar que el mensaje sea demasiado ancho en pantallas grandes */
+  letter-spacing: 0.5px;
+}
+
+/* Estilos para los enlaces */
+.link {
+  text-decoration: none;  
+  color: black;
+  font-weight: bolder;
+  margin-left: 10px;
+}
+
+.link:hover {
+  color: white;
+}
+
+/* Media queries para pantallas más pequeñas */
+@media (max-width: 768px) {
+  /* Ajuste del tamaño de los elementos dentro del contenedor */
+  .container {
+    gap: 10px; /* Reduce el espacio entre los elementos en pantallas pequeñas */
+  }
+
+  /* Ajuste del tamaño del mensaje */
+  .p {
+    font-size: 1rem; /* Reduce el tamaño de la fuente para pantallas pequeñas */
+    padding: 10px; /* Ajusta el padding para pantallas pequeñas */
+    width: 95%; /* Ajusta el ancho del mensaje para pantallas más pequeñas */
+  }
+}

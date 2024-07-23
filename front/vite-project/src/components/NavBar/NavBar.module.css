@@ -1,0 +1,102 @@
+/* Estilos generales del nav */
+.nav {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  background-color: var(--pink);
+  padding: 1em;
+  margin-bottom: 20px;
+  align-items: center;
+}
+
+/* Estilos del título del menú */
+.enlacesmenutitulo {
+  font-size: 2rem;
+  text-decoration: none;
+  color: black;
+  font-weight: bolder;
+}
+
+.enlacesmenutitulo:hover {
+  color: magenta;
+  cursor: pointer;
+}
+
+/* Estilos del botón de menú (toggle) */
+.menuToggle {
+  display: none;
+  font-size: 1.5rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.enlacesmenu {
+  display: flex;
+  flex-direction: row;
+  padding: 0;
+  list-style: none;
+  margin: 0;
+  gap: 20px;
+}
+
+.enlacesmenuitem {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.enlacesmenuitemli {
+  color: black;
+  font-size: 1.3rem;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.enlacesmenuitemli:hover {
+  color: magenta;
+  cursor: pointer;
+}
+
+.enlacesmenu.active {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  top: 60px; 
+  left: 0;
+  transition: transform 0.3s ease;
+  transform: translateY(0); 
+}
+
+@media (max-width: 768px) {
+  .nav {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+
+  .menuToggle {
+    display: block;
+  }
+
+  .enlacesmenu {
+    display: none; 
+  }
+
+  .enlacesmenu.active {
+    display: flex; 
+  }
+
+  .enlacesmenuitemli {
+    margin-bottom: 15px;
+    font-size: 1rem;
+    margin-left: 50px;
+  }
+}
+
+
+@media (min-width: 769px) {
+  .menuToggle {
+    display: none;
+  }
+}

@@ -1,0 +1,39 @@
+.div {
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .p {
+    color: black;
+    font-size: 1.2em;
+    margin-bottom: 50px;
+    text-align: left;
+    width: 50%;
+  }
+  
+  .link {
+    color: var(--hot-pink);
+    font-size: 1em;
+  }
+  
+  .iniciarSesion {
+    color: black;
+    text-decoration: none;
+  }
+  
+  .iniciarSesion:hover {
+    color: var(--hot-pink);;
+  }
+  
+  @media (max-width: 768px) {
+    .p {
+      font-size: 1em;
+    }
+    
+    .link {
+      font-size: 1em;
+    }
+  }
+  

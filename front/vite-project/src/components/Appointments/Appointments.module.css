@@ -1,0 +1,86 @@
+/* Estilos generales del formulario */
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* Alineación a la izquierda */
+  justify-content: center;
+  margin: 20px auto; /* Ajuste del margen para centrado automático */
+  gap: 20px;
+  padding: 20px;
+  width: 90%; /* Ajuste del ancho para pantallas pequeñas */
+  max-width: 600px; /* Ancho máximo para evitar que el formulario crezca demasiado */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+/* Estilos de los contenedores de los campos */
+.divContenedor {
+  display: flex;
+  flex-direction: column;
+  margin-top: 10px; /* Ajuste del margen superior */
+  gap: 10px;
+  width: 100%; /* Asegura que el contenedor ocupe el ancho completo */
+}
+
+/* Estilos de las etiquetas */
+.divContenedor label {
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+/* Estilos para los campos de entrada */
+.divContenedor input,
+.selectTime,
+.selectService {
+  padding: 8px;
+  border-radius: 5px;
+  border: 1px solid rgb(1, 21, 21);
+  font-size: 0.9rem; /* Ajuste del tamaño de fuente */
+  font-weight: bold;
+  cursor: pointer;
+  width: 100%; /* Ajusta el ancho de los campos al 100% del contenedor */
+}
+
+/* Estilos para el botón de enviar */
+.button {
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid rgb(1, 21, 21);
+  font-size: 0.9rem; /* Ajuste del tamaño de fuente */
+  font-weight: bold;
+  cursor: pointer;
+  width: 100%; /* Ajusta el ancho del botón al 100% del contenedor */
+  background-color: white; /* Color de fondo blanco por defecto */
+  transition: background-color 0.3s;
+}
+
+.button:hover {
+  background-color: var(--fuchsia-pink); /* Cambia el color de fondo al pasar el ratón */
+  color: white;
+}
+
+/* Estilos del contenedor de la imagen */
+.container {
+  display: flex;
+  flex-direction: column; /* Apila el formulario y la imagen verticalmente */
+  align-items: center; /* Alinea el contenido al centro */
+  gap: 20px;
+}
+
+.imgAppointment {
+  width: 80%; /* Ajusta el ancho de la imagen */
+  max-width: 400px; /* Ancho máximo para la imagen */
+  height: auto; /* Mantiene la relación de aspecto */
+  margin-top: 20px; /* Ajuste del margen superior */
+}
+
+/* Estilos del encabezado */
+.h2 {
+  text-align: center; /* Centra el texto del encabezado */
+  margin-top: 20px; /* Ajuste del margen superior */
+}
+
+/* Estilos para mensajes de error */
+.error {
+  font-size: 0.8rem;
+  color: red;
+}

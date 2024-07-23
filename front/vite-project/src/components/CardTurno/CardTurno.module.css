@@ -1,0 +1,83 @@
+/* Estilos del contenedor principal del card */
+.container {
+  display: flex;
+  flex-direction: column; /* Cambio a columna para pantallas pequeñas */
+  gap: 15px;
+  justify-content: center;
+  align-items: flex-start; /* Alineación a la izquierda para pantallas pequeñas */
+  border: 1px solid black;
+  word-spacing: 10px;
+  width: 90%; /* Ajuste del ancho para pantallas pequeñas */
+  max-width: 500px; /* Ancho máximo para evitar que crezca demasiado */
+  margin: 10px auto; /* Reducción del margen para pantallas pequeñas */
+  padding: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+/* Estilos del contenedor de palabras */
+.containerWords {
+  display: flex;
+  flex-direction: column; /* Cambio a columna para pantallas pequeñas */
+  gap: 10px;
+  width: 100%;
+}
+
+/* Estilos del nombre del servicio */
+.nameService {
+  font-weight: bolder;
+  font-size: 1.2rem; /* Ajuste del tamaño de fuente para pantallas pequeñas */
+  text-align: center; 
+}
+
+/* Estilo para el estado activo */
+.green {
+  color: green;
+}
+
+/* Estilo para el estado cancelado */
+.red {
+  color: red;
+}
+
+/* Estilos del botón de cancelar */
+.cancelButton {
+  background-color: rgba(242, 238, 238, 0.609);
+  color: black;
+  border: 1px solid black;
+  padding: 10px 20px; /* Aumento del padding para mejor toque en pantallas pequeñas */
+  text-align: center;
+  text-decoration: none;
+  font-size: 14px; /* Ajuste del tamaño de fuente para pantallas pequeñas */
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-top: 10px; /* Margen superior para separar del contenido */
+}
+
+.cancelButton:hover {
+  background-color: black;
+  color: white;
+}
+
+/* Estilo del botón deshabilitado */
+.cancelButton:disabled {
+  background-color: rgb(228, 164, 164);
+  color: black;
+  cursor: not-allowed;
+}
+
+/* Media queries para pantallas más pequeñas */
+@media (max-width: 768px) {
+  .container {
+    width: 95%; /* Ajuste del ancho para pantallas más pequeñas */
+    padding: 10px; /* Aumento del padding para mayor comodidad */
+  }
+
+  .nameService {
+    font-size: 1rem; /* Reducción del tamaño de fuente en pantallas pequeñas */
+  }
+
+  .cancelButton {
+    font-size: 12px; /* Reducción del tamaño de fuente del botón */
+    padding: 6px 12px; /* Reducción del padding para pantallas más pequeñas */
+  }
+}

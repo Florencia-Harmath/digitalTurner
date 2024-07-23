@@ -1,0 +1,67 @@
+/* Estilos para el encabezado principal */
+.h1 {
+    font-size: 1.5rem; /* Ajuste de tamaño de fuente para pantallas grandes */
+    margin-left: 20px; /* Ajuste del margen para pantallas pequeñas */
+    margin-top: 20px; /* Ajuste del margen superior para pantallas pequeñas */
+    margin-bottom: 20px; /* Ajuste del margen inferior para pantallas pequeñas */
+}
+
+/* Contenedor principal */
+.div {
+    margin-bottom: 50px; /* Reducción del margen inferior en pantallas pequeñas */
+    padding: 0 15px; /* Añadido padding horizontal para pantallas pequeñas */
+}
+
+/* Estilos para el enlace de nuevo turno */
+.link {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    text-decoration: none;
+    color: black;
+    display: block;
+    gap: 10px; /* Reducido el espacio en pantallas pequeñas */
+    font-size: 1rem; /* Ajuste del tamaño de fuente */
+    width: 100%; /* Ajustado el ancho para que ocupe todo el ancho disponible */
+    max-width: 300px; /* Añadido un ancho máximo */
+    padding: 1em;
+    margin: 0 auto; /* Centrado el enlace en pantallas pequeñas */
+    font-weight: bold;
+}
+
+.link:hover {
+    background-color: var(--fuchsia-pink);
+}
+
+/* Estilos para el párrafo */
+.p {
+    margin-left: 20px; /* Ajuste del margen para pantallas pequeñas */
+    margin-bottom: 20px; /* Ajuste del margen inferior */
+    font-size: 1rem; /* Ajuste del tamaño de fuente para pantallas pequeñas */
+}
+
+/* Media queries para pantallas más pequeñas */
+@media (max-width: 768px) {
+    /* Ajuste del tamaño de la fuente del encabezado principal */
+    .h1 {
+        font-size: 1.2rem;
+        margin-left: 0;
+        margin-top: 15px;
+        margin-bottom: 15px;
+    }
+
+    /* Ajuste del margen del contenedor */
+    .div {
+        margin-bottom: 30px; /* Ajuste del margen inferior */
+    }
+
+    /* Ajuste del enlace de nuevo turno */
+    .link {
+        font-size: 0.9rem; /* Reducción del tamaño de fuente */
+        width: 90%; /* Ajuste del ancho en pantallas pequeñas */
+    }
+
+    /* Ajuste del párrafo */
+    .p {
+        margin-left: 0;
+        font-size: 0.9rem; /* Reducción del tamaño de fuente */
+    }
+}
