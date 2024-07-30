@@ -3,13 +3,11 @@ import AppointmentDto from "../dto/Appointment";
 import appointmentRepository from "../repositories/AppointmentRepository";
 import userRepository from "../repositories/UserRepository";
 
-//OBTENER TODOS LOS TURNOS
 export const getAllAppointmentService = async (): Promise<Appointment[]> => {
   const appointments = await appointmentRepository.find();
   return appointments;
 };
 
-//OBTENER UN TURNO POR ID
 export const getAppointmentByIdService = async (id: number) => {
   const appointment = await appointmentRepository.findOneBy({
     id,
@@ -17,7 +15,6 @@ export const getAppointmentByIdService = async (id: number) => {
   return appointment;
 };
 
-//CREAR UN TURNO
 export const createAppointmentService = async (
   appointment: AppointmentDto
 ): Promise<Appointment> => {
@@ -44,7 +41,6 @@ export const createAppointmentService = async (
   }
 };
 
-//CANCELAR UN TURNO
 export const cancelAppointmentService = async (id: number): Promise<void> => {
   const appointment = await appointmentRepository.findOneBy({
     id,

@@ -1,7 +1,6 @@
 import { Request, Response } from "express";
 import { cancelAppointmentService, createAppointmentService, getAllAppointmentService, getAppointmentByIdService } from "../services/appointmentServices";
 
-//OBTENER TODOS LOS TURNOS
 export const getAllAppointments = async (req: Request, res: Response) => {
     try {
         const appointments = await getAllAppointmentService();
@@ -11,7 +10,6 @@ export const getAllAppointments = async (req: Request, res: Response) => {
     }
 };
 
-//OBTENER UN TURNO POR ID
 export const getAppointmentById = async (req: Request, res: Response) => {
     const appointmentId = parseInt(req.params.id);
     try {
@@ -26,7 +24,6 @@ export const getAppointmentById = async (req: Request, res: Response) => {
     }
 };
 
-//AGREGAR UN TURNO
 export const scheduleAppointment = async (req: Request, res: Response) => {
     const { date, time, userId, serviceName } = req.body;
     try {
@@ -38,7 +35,6 @@ export const scheduleAppointment = async (req: Request, res: Response) => {
     }
 };
 
-//CANCELAR UN TURNO
 export const cancelAppointment = async (req: Request, res: Response) => {
     const aappointmentId = parseInt(req.params.id)
     try{
