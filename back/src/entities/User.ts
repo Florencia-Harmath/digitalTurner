@@ -1,29 +1,34 @@
-import { Column, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { Appointment } from "./Appointment";
-import { Credential } from "./Credential";
-
+import { RoleEnum } from "../enum/roleEnum";
+const { v4: uuidv4 } = require('uuid');
 
 @Entity({
     name: "users"
 })
 export class User {
     @PrimaryGeneratedColumn()
-    id: number
+    id: string = new uuidv4();
+
     @Column()
     name: string
+
     @Column()
     email: string
+    
     @Column()
     birthdate: Date
+
     @Column()
     nDni: number
+    
     @Column()
-    credentialsId: number
+    password: string
+
+    @Column("default: user")
+    role: RoleEnum
 
     @OneToMany(()=> Appointment, appointment => appointment.user)
     @JoinColumn()
     appointments: Appointment[];
-
-    @OneToOne(() => Credential) 
-    credential: Credential;
 }

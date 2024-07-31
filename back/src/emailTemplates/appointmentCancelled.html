@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cita Cancelada</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        h1 {
+            color: #f44336;
+        }
+        p {
+            margin: 10px 0;
+        }
+        .details {
+            margin: 20px 0;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Tu cita ha sido cancelada</h1>
+        <p>Hola {{name}},</p>
+        <p>Te informamos que tu cita programada ha sido cancelada. Aquí están los detalles de la cita que se canceló:</p>
+        <div class="details">
+            <p><strong>Fecha:</strong> {{date}}</p>
+            <p><strong>Hora:</strong> {{time}}</p>
+        </div>
+        <p>Si tienes alguna pregunta o deseas reprogramar tu cita, no dudes en ponerte en contacto con nosotros.</p>
+        <p>¡Gracias por tu comprensión!</p>
+        <p>Saludos,<br>El equipo</p>
+    </div>
+</body>
+</html>

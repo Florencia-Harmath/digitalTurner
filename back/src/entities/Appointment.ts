@@ -1,11 +1,12 @@
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { User } from "./User";
+const { v4: uuidv4 } = require('uuid');
 
 
 @Entity()
 export class Appointment {
     @PrimaryGeneratedColumn()
-    id: number
+    id: string = new uuidv4();
 
     @Column()
     date: Date
@@ -14,7 +15,7 @@ export class Appointment {
     time: string
 
     @Column()
-    userId: number
+    userId: string
 
     @Column()
     status: string

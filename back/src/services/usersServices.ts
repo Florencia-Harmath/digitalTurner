@@ -1,72 +1,75 @@
+import { JWTSECRET } from "../config/envs";
 import UserDto from "../dto/UserDto";
-import  {createCredential, validateCredentials} from "./credentialsServices"
 import { User } from "../entities/User";
 import userRepository from "../repositories/UserRepository";
+import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
+import { sendEmail } from "../utils/emailUtils";
+
+const saltRounds = 10;
 
 export const getUsersService = async (): Promise<User[]> => {
-  const users = await userRepository.find({
-    relations: {
-      appointments: true
-    },
+  return await userRepository.find({
+    relations: { appointments: true },
   });
-  return users;
 };
 
-export const getUserByIdService = async (id: number): Promise<User | null> => {
-  const user = await userRepository.findOne({ where: { id }, relations: ['appointments'] });
-  return user;
+export const getUserByIdService = async (id: string): Promise<User | null> => {
+  return await userRepository.findOne({
+    where: { id },
+    relations: ['appointments'],
+  });
 };
-
 
 export const registerUserService = async (
   userData: UserDto
 ): Promise<User> => { 
+  const { email, password, confirmPassword } = userData;
+
+  if (password !== confirmPassword) {
+    throw new Error("Las contraseñas no coinciden");
+  }
+
+  const existingUser = await userRepository.findOneBy({ email });
+  if (existingUser) {
+    throw new Error("El usuario ya existe");
+  }
+
   try {
-    const credentialsId = await createCredential(userData.username, userData.password);
-    const createNewUser = userRepository.create({
-      name: userData.name,
-      email: userData.email,
-      birthdate: userData.birthdate,
-      nDni: userData.nDni,
-      credentialsId: credentialsId
-    }); 
-    const newUser = await userRepository.save(createNewUser);
-    return newUser; 
+    const hashedPassword = await bcrypt.hash(password, saltRounds);
+    const newUser = userRepository.create({ ...userData, password: hashedPassword });
+    const name = newUser.name;
+
+    await sendEmail(email, "Registro de usuario", "registration", { name });
+    return await userRepository.save(newUser);
   } catch (error) {
-    console.error(error);
+    console.error("Error al crear el usuario:", error);
     throw new Error("Error al crear el usuario");
   }
 };
 
-
-export const loginUserService = async (username: string, password: string): Promise<{ login: boolean, user?: UserDto }> => {
+export const loginUserService = async (
+  email: string,
+  password: string,
+  rememberMe: boolean
+): Promise<{ login: boolean; user?: User; message?: string; token?: string }> => {
   try {
-    const credentialId = await validateCredentials(username, password);
-
-    if (!credentialId) {
-      return { login: false };
+    const user = await userRepository.findOneBy({ email });
+    if (!user || !(await bcrypt.compare(password, user.password))) {
+      return { login: false, message: "Credenciales incorrectas" };
     }
 
-    const user = await userRepository.findOne({ where: { credentialsId: credentialId }, relations: ['appointments'] });
-
-    if (!user) {
-      return { login: false };
+    if (!JWTSECRET) {
+      throw new Error("JWTSECRET no está definido en las variables de entorno.");
     }
+    
+    const payload = { id: user.id, email: user.email, role: user.role };
+    const expiresIn = rememberMe ? "30d" : "12h";
+    const token = jwt.sign(payload, JWTSECRET, { expiresIn });
 
-    const userDto: UserDto = {
-      id: user.id,
-      username: username,
-      password: password,
-      name: user.name,
-      email: user.email,
-      birthdate: user.birthdate,
-      nDni: user.nDni,
-    };
-
-    return { login: true, user: userDto };
+    return { login: true, user, message: "Login exitoso", token };
   } catch (error) {
-    console.error(error);
+    console.error("Error al intentar iniciar sesión:", error);
     throw new Error("Error al intentar iniciar sesión. Por favor, inténtalo de nuevo más tarde.");
   }
 };
-
