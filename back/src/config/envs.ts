@@ -13,7 +13,7 @@ export const DBPASSWORD = process.env.DBPASSWORD
 export const DBNAME = process.env.DBNAM
 
 //JWT
-export const JWTSECRET = process.env.JWTSECR
+export const JWTSECRET = process.env.JWTSECRET || 'defaultSecret'
 export const CLIENT_URL = process.env.CLIENT_URL
 
 //NODMAILER

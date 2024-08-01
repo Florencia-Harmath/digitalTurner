@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { cancelAppointmentService, createAppointmentService, getAllAppointmentService, getAppointmentByIdService } from "../services/appointmentServices";
+import { cancelAppointmentService, createAppointmentService, getAllAppointmentService, getAppointmentByIdService, updateAppointmentService } from "../services/appointmentServices";
 
 // Obtener todas las citas
 export const getAllAppointments = async (req: Request, res: Response): Promise<Response> => {
@@ -49,5 +49,23 @@ export const cancelAppointment = async (req: Request, res: Response): Promise<Re
     } catch (error) {
         console.error("Error al cancelar el turno:", error);
         return res.status(500).json({ message: "Error al cancelar el turno" });
+    }
+};
+
+// Editar un turno
+export const updateAppointment = async (req: Request, res: Response): Promise<Response> => {
+    const appointmentId = req.params.id;
+    const { serviceName } = req.body; 
+    try {
+        const updatedAppointment = await updateAppointmentService(appointmentId, { serviceName });
+
+        if (!updatedAppointment) {
+            return res.status(404).json({ message: "Turno no encontrado" });
+        }
+
+        return res.status(200).json({ message: "Turno actualizado con éxito", appointment: updatedAppointment });
+    } catch (error) {
+        console.error("Error al editar el turno:", error);
+        return res.status(500).json({ message: "Error al editar el turno" });
     }
 };

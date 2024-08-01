@@ -5,6 +5,7 @@ import userRepository from "../repositories/UserRepository";
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { sendEmail } from "../utils/emailUtils";
+import { StatusUserEnum } from "../enum/statusUserEnum";
 
 const saltRounds = 10;
 
@@ -73,3 +74,48 @@ export const loginUserService = async (
     throw new Error("Error al intentar iniciar sesión. Por favor, inténtalo de nuevo más tarde.");
   }
 };
+
+export const updateProfilePictureService = async (userId: string, profilePicture: string): Promise<User | null> => {
+  try {
+      const user = await userRepository.findOneBy({ id: userId });
+      if (!user) {
+          throw new Error("Usuario no encontrado");
+      }
+
+      user.profilePicture = profilePicture;
+      await userRepository.save(user);
+
+      return user;
+  } catch (error) {
+      console.error("Error al actualizar la foto de perfil:", error);
+      throw new Error("Error al actualizar la foto de perfil");
+  }
+};
+
+export const blockedUser = async (userId: string): Promise<void> => {
+    const user = await userRepository.findOneBy({ id: userId });
+    if (!user) {
+        throw new Error("Usuario no encontrado");
+    }
+    user.status = StatusUserEnum.BLOCKED;
+    await userRepository.save(user);
+}
+
+export const unblockedUser = async (userId: string): Promise<void> => {
+    const user = await userRepository.findOneBy({ id: userId });
+    if (!user) {
+        throw new Error("Usuario no encontrado");
+    }
+    user.status = StatusUserEnum.ACTIVE;
+    await userRepository.save(user);
+}
+
+export const uploadUserService = async (userId: string, userData: Partial<UserDto>): Promise<User> => {
+    const user = await userRepository.findOneBy({ id: userId });
+    if (!user) {
+        throw new Error("Usuario no encontrado"); 
+    }
+    Object.assign(user, userData);
+    await userRepository.save(user);  
+    return user;
+}

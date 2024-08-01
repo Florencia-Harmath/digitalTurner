@@ -70,3 +70,17 @@ export const cancelAppointmentService = async (id: string): Promise<void> => {
         throw new Error("Error al cancelar el turno");
     }
 };
+
+//Editar un turno
+export const updateAppointmentService = async (id: string, appointment: Partial<Appointment>): Promise<Appointment | null> => {
+    const existingAppointment = await appointmentRepository.findOneBy({ id });
+
+    if (!existingAppointment) {
+        throw new Error("Turno no encontrado");
+    }
+
+    Object.assign(existingAppointment, appointment); 
+    await appointmentRepository.save(existingAppointment);
+
+    return existingAppointment;
+};

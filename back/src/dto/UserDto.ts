@@ -5,6 +5,7 @@ interface UserDto {
     nDni: number,
     password: string
     confirmPassword: string
+    profilePicture?: string;
 }
 
 export default UserDto;

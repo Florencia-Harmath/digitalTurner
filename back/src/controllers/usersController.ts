@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
-import { getUserByIdService, getUsersService, loginUserService, registerUserService } from "../services/usersServices";
+import { blockedUser, getUserByIdService, getUsersService, loginUserService, registerUserService, unblockedUser, uploadUserService } from "../services/usersServices";
 import { User } from "../entities/User";
+import { StatusUserEnum } from "../enum/statusUserEnum";
 
 // Obtener todos los usuarios
 export const getAllUsers = async (req: Request, res: Response): Promise<Response> => {
@@ -67,3 +68,41 @@ export const loginUser = async (req: Request, res: Response): Promise<Response> 
         });
     }
 };
+
+//Bloquear usuario
+export const blockUser = async (req: Request, res: Response): Promise<Response> => {
+    const userId = req.params.id;
+    try {
+        const user = await blockedUser(userId);
+            return res.status(200).json({ message: "Usuario bloqueado" });
+        } catch (error) {
+        console.error("Error al bloquear el usuario:", error);
+        return res.status(500).json({ message: "Error al bloquear el usuario" });
+    }
+};
+
+//Desbloquear usuario
+export const unblockUser = async (req: Request, res: Response): Promise<Response> => {
+    const userId = req.params.id;
+    try {
+        const user = await unblockedUser(userId);
+            return res.status(200).json({ message: "Usuario desbloqueado" });
+        } catch (error) {
+        console.error("Error al desbloquear el usuario:", error);
+        return res.status(500).json({ message: "Error al desbloquear el usuario" });
+    }
+};
+
+// Editar usuario
+export const updateUser = async (req: Request, res: Response): Promise<Response> => {
+    const userId = req.params.id;
+    const { name, email, birthdate, nDni } = req.body;
+    const userData = { name, email, birthdate, nDni };
+    try {
+        const updatedUser = await uploadUserService(userId, userData);
+        return res.status(200).json(updatedUser);
+    } catch (error) {
+        console.error("Error al actualizar el usuario:", error);
+        return res.status(500).json({ message: "Error al actualizar el usuario" });
+    }
+}
