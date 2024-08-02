@@ -5,14 +5,12 @@ import { validateRegisterForm } from "../../helpers/validate.js";
 import { useNavigate } from "react-router-dom";
 
 const RegisterForm = () => {
-  const navigates = useNavigate();
+  const navigate = useNavigate();
 
   const [form, setForm] = useState({
     name: "",
     email: "",
     birthdate: "",
-    dni: "",
-    username: "",
     password: "",
     confirmPassword: "",
   });
@@ -26,30 +24,35 @@ const RegisterForm = () => {
 
   const handleOnSubmit = (event) => {
     event.preventDefault();
-
+  
+    console.log('Formulario enviado:', form); 
+  
     if (form.password !== form.confirmPassword) {
       setErrors({ password: "Las contraseñas no coinciden" });
       return;
     }
-
+  
     const validationErrors = validateRegisterForm(form);
-
+  
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
     } else {
-      axios
-        .post("http://localhost:3000/users/register", form)
-        .then((response) => {
-          console.log("Datos del usuario registrado", response.data);
-          alert("Usuario registrado con exito");
-          navigates("/login");
-        })
-        .catch((error) => {
-          console.log(error);
+      axios.post("http://localhost:3000/users/register", form)
+  .then(response => {
+    console.log("Usuario registrado:", response.data);
+    if (response.status === 201) {
+      alert("Usuario registrado con éxito");
+      navigate("/login");
+    }
+  })
+  .catch(error => {
+    console.error("Error al registrar usuario:", error);
+    setErrors({ general: "Hubo un error al registrar el usuario" });
+  });
 
-        });
     }
   };
+  
   return (
     <>
       <div className={styles.container}>
@@ -62,6 +65,7 @@ const RegisterForm = () => {
               id="name"
               name="name"
               onChange={handleChange}
+              value={form.name}
             />
             {errors.name && <p className={styles.error}>{errors.name}</p>}
           </div>
@@ -69,62 +73,38 @@ const RegisterForm = () => {
           <div className={styles.formGroup}>
             <label>Email</label>
             <input
-              type="text"
+              type="email" 
               placeholder="Email"
               id="email"
               name="email"
               onChange={handleChange}
+              value={form.email}
             />
             {errors.email && <p className={styles.error}>{errors.email}</p>}
           </div>
 
           <div className={styles.formGroup}>
             <label>Fecha de nacimiento</label>
-            <input 
-            type="date" 
-            placeholder="Fecha de nacimiento" 
-            id="date" 
-            name="birthdate"
-            onChange={handleChange}
+            <input
+              type="date"
+              placeholder="Fecha de nacimiento"
+              id="birthdate"
+              name="birthdate"
+              onChange={handleChange}
+              value={form.birthdate}
             />
             {errors.birthdate && <p className={styles.error}>{errors.birthdate}</p>}
-          </div>
-
-
-          <div className={styles.formGroup}>
-            <label>Numero de DNI o Cédula</label>
-            <input
-              type="text"
-              placeholder="DNI o Cédula"
-              id="dni"
-              name="nDni"
-              onChange={handleChange}
-            />
-            {errors.nDni && <p className={styles.error}>{errors.nDni}</p>}
-          </div>
-
-          <div className={styles.formGroup}>
-            <label>Nombre de usuario</label>
-            <input
-              type="text"
-              placeholder="Genere su nombre de usuario"
-              id="username"
-              name="username"
-              onChange={handleChange}
-            />
-            {errors.username && (
-              <p className={styles.error}>{errors.username}</p>
-            )}
           </div>
 
           <div className={styles.formGroup}>
             <label>Contraseña</label>
             <input
               type="password"
-              placeholder="Genere su contraseña, como mínimo 8 caractéres"
+              placeholder="Genere su contraseña, como mínimo 8 caracteres"
               id="password"
               name="password"
               onChange={handleChange}
+              value={form.password}
             />
             {errors.password && (
               <p className={styles.error}>{errors.password}</p>
@@ -139,11 +119,14 @@ const RegisterForm = () => {
               id="confirmPassword"
               name="confirmPassword"
               onChange={handleChange}
+              value={form.confirmPassword}
             />
             {errors.confirmPassword && (
               <p className={styles.error}>{errors.confirmPassword}</p>
             )}
           </div>
+
+          {errors.general && <p className={styles.error}>{errors.general}</p>}
 
           <button className={styles.buttonForm} type="submit">
             REGISTRARSE
@@ -152,7 +135,7 @@ const RegisterForm = () => {
 
         <img
           className={styles.imgRegister}
-          src="src/assets/img-register.png"
+          src="/src/assets/img-register.png" 
           alt="img-home"
         />
       </div>

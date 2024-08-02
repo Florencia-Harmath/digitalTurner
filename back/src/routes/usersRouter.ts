@@ -14,13 +14,17 @@ router.post("/login", loginUser); // Público
 router.post("/blocked/:id", authenticateToken, authorizeRole(['admin']), blockUser) // bloquear usuario por ID
 router.post("/unblocked/:id", authenticateToken, authorizeRole(['admin']), unblockUser) // desbloquear usuario por ID
 router.put("upload/:id", authenticateToken, updateUser); // Actualizar usuario
-router.post("/upload-profile-picture", authenticateToken, upload.single('profilePicture'), async (req, res) => {
+router.post("/upload-profile-picture/:id", authenticateToken, upload.single('profilePicture'), async (req, res) => {
     try {
-        const userId = req.user?.id; 
+        const userId = req?.user?.id; 
         const profilePicture = req.file?.path; 
 
         if (!profilePicture) {
             return res.status(400).json({ message: 'No se subió ninguna imagen' });
+        }
+
+        if (!userId) {
+            return res.status(401).json({ message: 'No se encontro el usuario' });
         }
 
         const updatedUser = await updateProfilePictureService(userId, profilePicture);
@@ -30,4 +34,11 @@ router.post("/upload-profile-picture", authenticateToken, upload.single('profile
     }
 });
 
+declare module 'express-serve-static-core' {
+    interface Request {
+        user?: {
+            id: string;
+        };
+    }
+}
 export default router;

@@ -32,9 +32,10 @@ export const getUserById = async (req: Request, res: Response): Promise<Response
 
 // Registrar un nuevo usuario
 export const registerUser = async (req: Request, res: Response): Promise<Response> => {
-    const { name, email, birthdate, nDni, password, confirmPassword } = req.body;
+    const { name, email, birthdate, password, confirmPassword } = req.body;
+    console.log({ name, email, birthdate, password, confirmPassword });
     try {
-        const newUser = await registerUserService({ name, email, birthdate, nDni, password, confirmPassword });
+        const newUser = await registerUserService({ name, email, birthdate, password, confirmPassword });
         return res.status(201).json(newUser);
     } catch (error) {
         console.error("Error al registrar el usuario:", error);

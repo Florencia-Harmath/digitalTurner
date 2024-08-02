@@ -5,9 +5,7 @@ import { CLIENT_URL } from "./config/envs";
 
 const server = express();
 
-server.use(cors({
-  origin: CLIENT_URL || 'http://localhost:5173', 
-}));
+server.use(cors());
 
 server.use(express.json());
 

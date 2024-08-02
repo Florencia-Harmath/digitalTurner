@@ -7,37 +7,42 @@ export const authenticateToken = async (req: Request, res: Response, next: NextF
     const authHeader = req.headers['authorization'];
     const token = authHeader && authHeader.split(' ')[1];
 
-    if (!token) return res.sendStatus(401); 
+    if (!token) return res.sendStatus(401);
 
     if (!JWTSECRET) {
         return res.status(500).json({ message: "Server configuration error: JWTSECRET not defined" });
     }
 
     try {
-        const decoded = jwt.verify(token, JWTSECRET) as JwtPayload;
-        req.user = decoded; 
+        const decoded = jwt.verify(token, JWTSECRET) as UserPayload;
+        req.user = decoded;
         next();
     } catch (err) {
-        return res.sendStatus(403); 
+        return res.sendStatus(403);
     }
 };
 
 // Middleware para autorización por rol
 export const authorizeRole = (roles: string[]) => {
-   return (req: Request, res: Response, next: NextFunction) => {
-       const user = req.user as JwtPayload;
+    return (req: Request, res: Response, next: NextFunction) => {
+        const user = req.user as UserPayload;
 
-       if (user && roles.includes(user.role)) {
-           next();
-       } else {
-           const message = user
-               ? `Acceso denegado. Se requiere uno de los siguientes roles: ${roles.join(', ')}.`
-               : 'Acceso denegado. Usuario no autenticado.';
+        if (user && roles.includes(user.role || '')) {
+            next();
+        } else {
+            const message = user
+                ? `Acceso denegado. Se requiere uno de los siguientes roles: ${roles.join(', ')}.`
+                : 'Acceso denegado. Usuario no autenticado.';
 
-           res.status(403).json({ message });
-       }
-   };
+            res.status(403).json({ message });
+        }
+    };
 };
 
+
+interface UserPayload extends JwtPayload {
+    id: string;
+    role?: string; // Agrega cualquier otra propiedad que esperes en el token
+}
 
 

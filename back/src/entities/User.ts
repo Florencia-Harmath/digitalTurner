@@ -14,8 +14,8 @@ const { v4: uuidv4 } = require("uuid");
   name: "users",
 })
 export class User {
-  @PrimaryGeneratedColumn()
-  id: string = new uuidv4();
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
   @Column()
   name: string;
@@ -25,9 +25,6 @@ export class User {
 
   @Column()
   birthdate: Date;
-
-  @Column()
-  nDni: number;
 
   @Column()
   password: string;

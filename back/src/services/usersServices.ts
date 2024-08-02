@@ -41,7 +41,7 @@ export const registerUserService = async (
     const newUser = userRepository.create({ ...userData, password: hashedPassword });
     const name = newUser.name;
 
-    await sendEmail(email, "Registro de usuario", "registration", { name });
+    //await sendEmail(email, "Registro de usuario", "registration", { name });
     return await userRepository.save(newUser);
   } catch (error) {
     console.error("Error al crear el usuario:", error);

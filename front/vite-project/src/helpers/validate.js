@@ -15,13 +15,12 @@ const validateRegisterForm = (formData) => {
         minAge: 16,
       ageMessage: "Debe tener al menos 16 años para registrarse"
       },
-      nDni: {
-        required: true,
-      },
-      username: {
-        required: true,
-      },
       password: {
+        required: true,
+        minLength: 8,
+        message: "La contraseña debe tener al menos 8 caracteres",
+      },
+      confirmPassword: {
         required: true,
         minLength: 8,
         message: "La contraseña debe tener al menos 8 caracteres",
@@ -52,8 +51,8 @@ const validateRegisterForm = (formData) => {
 const validateLoginForm = (formData) => {
     const errors = {};
 
-    if (!formData.username) {
-        errors.username = "El nombre de usuario es requerido";
+    if (!formData.email) {
+        errors.email = "El nombre de usuario es requerido";
     }
     if (!formData.password) {
         errors.password = "La contraseña es requerida";
