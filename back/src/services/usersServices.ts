@@ -24,7 +24,7 @@ export const getUserByIdService = async (id: string): Promise<User | null> => {
 
 export const registerUserService = async (
   userData: UserDto
-): Promise<User> => { 
+) => { 
   const { email, password, confirmPassword } = userData;
 
   if (password !== confirmPassword) {
@@ -41,8 +41,10 @@ export const registerUserService = async (
     const newUser = userRepository.create({ ...userData, password: hashedPassword });
     const name = newUser.name;
 
-    //await sendEmail(email, "Registro de usuario", "registration", { name });
-    return await userRepository.save(newUser);
+    await sendEmail(email, "Registro de usuario", "registration", {name} );
+    console.log("mail enviado");
+    await userRepository.save(newUser);
+    return "Usuario creado exitosamente";
   } catch (error) {
     console.error("Error al crear el usuario:", error);
     throw new Error("Error al crear el usuario");

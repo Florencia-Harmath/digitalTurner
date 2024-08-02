@@ -1,12 +1,13 @@
 import path from 'path';
 import fs from 'fs';
-import ejs from 'ejs';
+import handlebars from 'handlebars';
 import transporter from '../config/nodemailer';
 
 const renderTemplate = async (templateName: string, data: any) => {
-    const filePath = path.join(__dirname, '../emailTemplates', `${templateName}.html`);
+    const filePath = path.join(__dirname, '../emailTemplates', `${templateName}.hbs`);
     const template = fs.readFileSync(filePath, 'utf-8');
-    return ejs.render(template, data);
+    const compiledTemplate = handlebars.compile(template);
+    return compiledTemplate(data);
 };
 
 export const sendEmail = async (to: string, subject: string, templateName: string, data: any) => {
