@@ -6,6 +6,8 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { addAppointment } from "../../redux/userSlice.js";
 import { useSelector } from "react-redux";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css'; // Importa los estilos de Toastify
 
 const Appointments = () => {
   const navigate = useNavigate();
@@ -48,16 +50,13 @@ const Appointments = () => {
         .post("http://localhost:3000/appointments/schedule", appointment)
         .then((response) => {
           const res = response.data;
-          console.log("info del turno seleccionado", res);
-          alert("Turno solicitado con éxito");
+          toast.success("Turno solicitado con éxito");
           dispatch(addAppointment(res));
           navigate("/turnos");
         })
         .catch((error) => {
           console.error("Error al solicitar turno:", error.message);
-          alert(
-            "Error al solicitar turno. Por favor, inténtalo de nuevo más tarde."
-          );
+          toast.error("Error al solicitar turno. Por favor, inténtalo de nuevo más tarde.");
         });
     }
   };
@@ -131,7 +130,7 @@ const Appointments = () => {
             )}
           </div>
 
-          <button type="submit" className={styles.button}>
+          <button type="submit" className={styles.btn}>
             SOLICITAR TURNO
           </button>
         </form>

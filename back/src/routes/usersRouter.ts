@@ -1,6 +1,6 @@
 import express from "express";
 import { authenticateToken, authorizeRole } from "../middlewares/auth";
-import { getAllUsers, getUserById, registerUser, loginUser, blockUser, unblockUser, updateUser } from "../controllers/usersController";
+import { getAllUsers, getUserById, registerUser, loginUser, blockUser, unblockUser, updateUser, updateUserPassword } from "../controllers/usersController";
 import upload from "../config/multer";
 import { updateProfilePictureService } from "../services/usersServices";
 
@@ -14,6 +14,7 @@ router.post("/login", loginUser); // Público
 router.post("/blocked/:id", authenticateToken, authorizeRole(['admin']), blockUser) // bloquear usuario por ID
 router.post("/unblocked/:id", authenticateToken, authorizeRole(['admin']), unblockUser) // desbloquear usuario por ID
 router.put("upload/:id", authenticateToken, updateUser); // Actualizar usuario
+router.put("/upload/password/id", authenticateToken, updateUserPassword);
 router.post("/upload-profile-picture/:id", authenticateToken, upload.single('profilePicture'), async (req, res) => {
     try {
         const userId = req?.user?.id; 

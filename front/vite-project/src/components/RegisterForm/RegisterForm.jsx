@@ -1,11 +1,16 @@
 import styles from "./RegisterForm.module.css";
 import axios from "axios";
 import { useState } from "react";
-import { validateRegisterForm } from "../../helpers/validate.js";
+import { validateRegisterForm } from "../../helpers/validate";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { registerSuccess } from "../../redux/userSlice";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const RegisterForm = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const [form, setForm] = useState({
     name: "",
@@ -13,6 +18,7 @@ const RegisterForm = () => {
     birthdate: "",
     password: "",
     confirmPassword: "",
+    role: "user"
   });
 
   const [errors, setErrors] = useState({});
@@ -24,37 +30,43 @@ const RegisterForm = () => {
 
   const handleOnSubmit = (event) => {
     event.preventDefault();
-  
-    console.log('Formulario enviado:', form); 
-  
+
     if (form.password !== form.confirmPassword) {
       setErrors({ password: "Las contraseñas no coinciden" });
       return;
     }
-  
+
     const validationErrors = validateRegisterForm(form);
-  
+
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
     } else {
       axios.post("http://localhost:3000/users/register", form)
-  .then(response => {
-    console.log("Usuario registrado:", response.data);
-    if (response.status === 201) {
-      alert("Usuario registrado con éxito");
-      navigate("/login");
-    }
-  })
-  .catch(error => {
-    console.error("Error al registrar usuario:", error);
-    setErrors({ general: "Hubo un error al registrar el usuario" });
-  });
-
+        .then(response => {
+          if (response.status === 201) {
+            toast.success("Usuario registrado con éxito");
+            dispatch(registerSuccess(response.data));
+            navigate("/login");
+          }
+        })
+        .catch((error) => {
+          if (axios.isAxiosError(error) && error.response) {
+            const errorMessage = error.response.data?.message || "Hubo un error al registrar el usuario.";
+            if (errorMessage === "El email ya está registrado") {
+              toast.error("El usuario ya está registrado");
+            } else {
+              toast.error(errorMessage);
+            }
+          } else {
+            toast.error("Error inesperado al registrar el usuario.");
+          }
+        });
     }
   };
-  
+
   return (
     <>
+      <ToastContainer />
       <div className={styles.container}>
         <form className={styles.form} onSubmit={handleOnSubmit}>
           <div className={styles.formGroup}>
@@ -73,7 +85,7 @@ const RegisterForm = () => {
           <div className={styles.formGroup}>
             <label>Email</label>
             <input
-              type="email" 
+              type="email"
               placeholder="Email"
               id="email"
               name="email"
@@ -135,7 +147,7 @@ const RegisterForm = () => {
 
         <img
           className={styles.imgRegister}
-          src="/src/assets/img-register.png" 
+          src="/src/assets/img-register.png"
           alt="img-home"
         />
       </div>

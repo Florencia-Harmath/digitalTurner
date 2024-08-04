@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { blockedUser, getUserByIdService, getUsersService, loginUserService, registerUserService, unblockedUser, uploadUserService } from "../services/usersServices";
+import { blockedUser, getUserByIdService, getUsersService, loginUserService, registerUserService, unblockedUser, uploadUserPasswordService, uploadUserService } from "../services/usersServices";
 import { User } from "../entities/User";
 import { StatusUserEnum } from "../enum/statusUserEnum";
 
@@ -101,6 +101,20 @@ export const updateUser = async (req: Request, res: Response): Promise<Response>
     const userData = { name, email, birthdate, nDni };
     try {
         const updatedUser = await uploadUserService(userId, userData);
+        return res.status(200).json(updatedUser);
+    } catch (error) {
+        console.error("Error al actualizar el usuario:", error);
+        return res.status(500).json({ message: "Error al actualizar el usuario" });
+    }
+}
+
+//Editar contraseña de usuario
+export const updateUserPassword = async (req: Request, res: Response): Promise<Response> => {
+    const userId = req.params.id;
+    const { password, newPassword, confirmNewPassword } = req.body;
+    const userData = { password, newPassword, confirmNewPassword };
+    try {
+        const updatedUser = await uploadUserPasswordService(userId, userData);
         return res.status(200).json(updatedUser);
     } catch (error) {
         console.error("Error al actualizar el usuario:", error);

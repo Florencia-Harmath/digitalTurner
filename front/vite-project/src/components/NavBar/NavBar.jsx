@@ -17,7 +17,7 @@ const NavBar = () => {
 
   return (
     <nav className={styles.nav}>
-      <Link to="/" className={styles.enlacesmenutitulo}>MAGMA Spa</Link>
+      <Link to="/about" className={styles.enlacesmenutitulo}>MAGMA Spa</Link>
       <button className={styles.menuToggle} onClick={handleMenuToggle}>
         ☰
       </button>

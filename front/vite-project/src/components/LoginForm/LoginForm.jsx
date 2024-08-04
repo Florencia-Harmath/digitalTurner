@@ -1,14 +1,16 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./LoginForm.module.css";
-import { validateLoginForm } from "../../helpers/validate.js";
+import { validateLoginForm } from "../../helpers/validate";
 import axios from "axios";
 import { useDispatch } from "react-redux";
-import { registerSuccess } from "../../redux/userSlice.js";
+import { loginSuccess } from "../../redux/authSlice"; 
 import { Link } from "react-router-dom";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const LoginForm = () => {
-  const navigates = useNavigate();
+  const navigate = useNavigate(); 
   const dispatch = useDispatch();
 
   const [userData, setUserData] = useState({
@@ -18,9 +20,12 @@ const LoginForm = () => {
   });
   const [errors, setErrors] = useState({});
 
-  const handleSubmit = (event) => {
-    const { name, value } = event.target;
-    setUserData({ ...userData, [name]: value });
+  const handleChange = (event) => {
+    const { name, value, type, checked } = event.target;
+    setUserData({
+      ...userData,
+      [name]: type === 'checkbox' ? checked : value
+    });
   };
 
   const handleOnSubmit = (event) => {
@@ -32,64 +37,72 @@ const LoginForm = () => {
       axios
         .post("http://localhost:3000/users/login", userData)
         .then((response) => {
-          alert("Inicio de sesión exitoso");
-          dispatch(registerSuccess(response.data));
-          console.log("data usuario logueado:", response.data);
-          navigates("/schedule");
+          toast.success("Inicio de sesión exitoso");
+          dispatch(loginSuccess(response.data)); 
+          navigate("/schedule");
         })
         .catch((error) => {
-          console.log(error);
-          alert("Usuario no registrado");
-          navigates("/register");
+          console.error(error);
+          toast.error("Usuario o contraseña incorrectos");
         });
     }
   };
 
   return (
-    <div className={styles.container}>
-      <p className={styles.p}>
-        ¿No tenes cuenta aún? -{" "}
-        <Link className={styles.link} to="/register">
-          Registrate
-        </Link>
-      </p>
-      <form className={styles.form} onSubmit={handleOnSubmit}>
-        <h2>LOGIN</h2>
-        <div className={styles.formGroup}>
-          <label>email</label>
-          <input
-            type="text"
-            value={userData.email}
-            name="email"
-            placeholder="email"
-            onChange={handleSubmit}
-          />
-          {errors.username && <p className={styles.error}>{errors.username}</p>}
-        </div>
+    <>
+      <ToastContainer />
+      <div className={styles.container}>
+        <p className={styles.p}>
+          ¿No tenés cuenta aún? -{" "}
+          <Link className={styles.link} to="/register">
+            Registrate
+          </Link>
+        </p>
+        <form className={styles.form} onSubmit={handleOnSubmit}>
+          <h2>LOGIN</h2>
+          <div className={styles.formGroup}>
+            <label>Email</label>
+            <input
+              type="text"
+              value={userData.email}
+              name="email"
+              placeholder="Email"
+              onChange={handleChange}
+            />
+            {errors.email && <p className={styles.error}>{errors.email}</p>}
+          </div>
 
-        <div className={styles.formGroup}>
-          <label>password</label>
-          <input
-            type="password"
-            value={userData.password}
-            name="password"
-            placeholder="password"
-            onChange={handleSubmit}
-          />
-          {errors.password && <p className={styles.error}>{errors.password}</p>}
-        </div>
-        <div className={styles.checkbox}>
-          <label>Mantener sesión iniciada</label>
-          <input type="checkbox" name="rememberMe" />
-        </div>
+          <div className={styles.formGroup}>
+            <label>Contraseña</label>
+            <input
+              type="password"
+              value={userData.password}
+              name="password"
+              placeholder="Contraseña"
+              onChange={handleChange}
+            />
+            {errors.password && <p className={styles.error}>{errors.password}</p>}
+          </div>
+          <div className={styles.checkbox}>
+            <label>
+              Mantener sesión iniciada
+              <input
+                type="checkbox"
+                name="rememberMe"
+                checked={userData.rememberMe}
+                onChange={handleChange}
+              />
+            </label>
+          </div>
 
-        <div className={styles.formGroup}>
-          <button className={styles.button} type="submit">
-            Login
-          </button>
-        </div>
-      </form>
-    </div>
+          <div className={styles.formGroup}>
+            <button className={styles.button} type="submit">
+              Login
+            </button>
+          </div>
+        </form>
+      </div>
+    </>
   );
 };
 

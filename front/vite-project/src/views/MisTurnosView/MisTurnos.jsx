@@ -6,7 +6,7 @@ const MisTurnos = () => {
   return (
     <div className={styles.div}>
       <div>
-        <Link to="/schedule" className={styles.link}>NUEVO TURNO</Link>
+        <Link to="/schedule" className={styles.btn}>NUEVO TURNO</Link>
       </div>
       <h1 className={styles.h1}>MIS TURNOS:</h1>
       <p className={styles.p}>Recuerda que si cancelas el turno, no se puede volver a programar!</p>

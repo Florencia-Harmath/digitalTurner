@@ -1,4 +1,4 @@
-interface UserDto {
+export default interface UserDto {
     name: string,
     email: string,
     birthdate: Date,
@@ -7,5 +7,6 @@ interface UserDto {
     profilePicture?: string;
 }
 
-export default UserDto;
+
+
 

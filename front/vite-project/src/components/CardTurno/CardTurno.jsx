@@ -1,4 +1,6 @@
 import styles from "./CardTurno.module.css";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css'; // Importa los estilos de Toastify
 
 const CardTurno = ({ turno, onCancelTurno }) => {
   if (!turno) {
@@ -14,6 +16,15 @@ const CardTurno = ({ turno, onCancelTurno }) => {
     return status === "active" ? styles.green : styles.red;
   };
 
+  const handleCancel = () => {
+    if (turno.status === "cancelled") {
+      toast.info("El turno ya está cancelado.");
+      return;
+    }
+    onCancelTurno(turno.id);
+    toast.success("Turno cancelado con éxito.");
+  };
+
   return (
     <div className={styles.container}>
       <div className={styles.containerWords}>
@@ -27,7 +38,7 @@ const CardTurno = ({ turno, onCancelTurno }) => {
         </p>
         <button
           className={styles.cancelButton}
-          onClick={() => onCancelTurno(turno.id)}
+          onClick={handleCancel}
           disabled={turno.status === "cancelled"}
         >
           Cancelar

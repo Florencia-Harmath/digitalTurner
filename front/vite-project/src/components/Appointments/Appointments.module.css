@@ -41,22 +41,23 @@
 }
 
 /* Estilos para el botón de enviar */
-.button {
-  padding: 10px;
+.btn {
+  background-color: var(--pink);
+  color: #333;
+  padding: 10px 20px;
+  border: none;
   border-radius: 5px;
-  border: 1px solid rgb(1, 21, 21);
-  font-size: 0.9rem; /* Ajuste del tamaño de fuente */
-  font-weight: bold;
   cursor: pointer;
-  width: 100%; /* Ajusta el ancho del botón al 100% del contenedor */
-  background-color: white; /* Color de fondo blanco por defecto */
   transition: background-color 0.3s;
+  margin: 15px;
+  font-size: 1rem;
+  text-decoration: none;
 }
 
-.button:hover {
-  background-color: var(--fuchsia-pink); /* Cambia el color de fondo al pasar el ratón */
-  color: white;
+.btn:hover {
+  background-color: var(--fuchsia-pink);
 }
+
 
 /* Estilos del contenedor de la imagen */
 .container {
