@@ -18,7 +18,6 @@ const RegisterForm = () => {
     birthdate: "",
     password: "",
     confirmPassword: "",
-    role: "user"
   });
 
   const [errors, setErrors] = useState({});
@@ -28,7 +27,7 @@ const RegisterForm = () => {
     setForm({ ...form, [name]: value });
   };
 
-  const handleOnSubmit = (event) => {
+  const handleOnSubmit = async (event) => {
     event.preventDefault();
 
     if (form.password !== form.confirmPassword) {
@@ -41,26 +40,27 @@ const RegisterForm = () => {
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
     } else {
-      axios.post("http://localhost:3000/users/register", form)
-        .then(response => {
-          if (response.status === 201) {
-            toast.success("Usuario registrado con éxito");
-            dispatch(registerSuccess(response.data));
-            navigate("/login");
+      try {
+        const response = await axios.post(
+          "http://localhost:3000/users/register",
+          form
+        );
+
+        toast.success("Usuario registrado con éxito");
+        dispatch(registerSuccess(response.data));
+        navigate("/login");
+      } catch (error) {
+        if (axios.isAxiosError(error) && error.response) {
+          const errorMessage =
+            error.response.data?.message ||
+            "Hubo un error al registrar el usuario.";
+          if (errorMessage) {
+            toast.error("El usuario ya se encuentra registrado");
           }
-        })
-        .catch((error) => {
-          if (axios.isAxiosError(error) && error.response) {
-            const errorMessage = error.response.data?.message || "Hubo un error al registrar el usuario.";
-            if (errorMessage === "El email ya está registrado") {
-              toast.error("El usuario ya está registrado");
-            } else {
-              toast.error(errorMessage);
-            }
-          } else {
-            toast.error("Error inesperado al registrar el usuario.");
-          }
-        });
+        } else {
+          toast.error("Error inesperado al registrar el usuario.");
+        }
+      }
     }
   };
 
@@ -70,7 +70,7 @@ const RegisterForm = () => {
       <div className={styles.container}>
         <form className={styles.form} onSubmit={handleOnSubmit}>
           <div className={styles.formGroup}>
-            <label>Nombre completo</label>
+            <label>Nombre</label>
             <input
               type="text"
               placeholder="Nombre Completo"
@@ -105,7 +105,9 @@ const RegisterForm = () => {
               onChange={handleChange}
               value={form.birthdate}
             />
-            {errors.birthdate && <p className={styles.error}>{errors.birthdate}</p>}
+            {errors.birthdate && (
+              <p className={styles.error}>{errors.birthdate}</p>
+            )}
           </div>
 
           <div className={styles.formGroup}>

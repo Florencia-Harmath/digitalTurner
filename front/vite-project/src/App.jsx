@@ -25,7 +25,7 @@ function App() {
     (state) => state.auth
   );
 
-  console.log(user)
+  if(user) console.log(user)
   
   useEffect(() => {
     if (token && !isAuthenticated) {
