@@ -6,8 +6,7 @@ import axios from "axios";
 import { useDispatch } from "react-redux";
 import { loginSuccess } from "../../redux/authSlice"; 
 import { Link } from "react-router-dom";
-import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
 
 const LoginForm = () => {
   const navigate = useNavigate(); 
@@ -39,7 +38,9 @@ const LoginForm = () => {
         .then((response) => {
           toast.success("Inicio de sesión exitoso");
           dispatch(loginSuccess(response.data)); 
-          navigate("/schedule");
+          setTimeout(() => {
+            navigate("/schedule");
+          }, 2000);
         })
         .catch((error) => {
           console.error(error);
@@ -50,7 +51,6 @@ const LoginForm = () => {
 
   return (
     <>
-      <ToastContainer />
       <div className={styles.container}>
         <p className={styles.p}>
           ¿No tenés cuenta aún? -{" "}

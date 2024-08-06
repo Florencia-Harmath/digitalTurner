@@ -45,6 +45,7 @@ export const createAppointmentService = async (appointmentDto: AppointmentDto): 
     }
 };
 
+
 // Cancelar una cita
 export const cancelAppointmentService = async (id: string): Promise<void> => {
     try {

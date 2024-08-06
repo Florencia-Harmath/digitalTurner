@@ -1,24 +1,24 @@
+// src/components/Appointments/Appointments.jsx
 import styles from "./Appointments.module.css";
 import { useState } from "react";
-import axios from "axios";
+import api from "../../helpers/api"; // Importa la instancia configurada de Axios
 import { validateAppointment } from "../../helpers/validate.js";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { addAppointment } from "../../redux/userSlice.js";
-import { useSelector } from "react-redux";
 import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css'; // Importa los estilos de Toastify
+import 'react-toastify/dist/ReactToastify.css'; 
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import { isSunday } from 'date-fns';
 
 const Appointments = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const userId = useSelector((state) => state.user.userId);
-
   const [appointment, setAppointment] = useState({
     date: "",
     time: "",
     serviceName: "",
-    userId: userId,
   });
 
   const [errors, setErrors] = useState({});
@@ -46,8 +46,8 @@ const Appointments = () => {
     if (Object.keys(validateErrors).length > 0) {
       setErrors(validateErrors);
     } else {
-      axios
-        .post("http://localhost:3000/appointments/schedule", appointment)
+      api
+        .post("/appointments/schedule", appointment) 
         .then((response) => {
           const res = response.data;
           toast.success("Turno solicitado con éxito");
@@ -79,6 +79,10 @@ const Appointments = () => {
   const today = new Date();
   today.setDate(today.getDate() + 1);
 
+  const filterDate = (date) => {
+    return !isSunday(date); 
+  };
+
   return (
     <>
       <h2 className={styles.h2}>SOLICITAR TURNO:</h2>
@@ -86,12 +90,16 @@ const Appointments = () => {
         <form onSubmit={handleSubmit} className={styles.form}>
           <div className={styles.divContenedor}>
             <label>FECHA:</label>
-            <input
-              type="date"
-              onChange={handleChange}
-              name="date"
-              min={today.toISOString().split("T")[0]}
-              value={appointment.date}
+            <DatePicker
+              selected={appointment.date ? new Date(appointment.date) : null}
+              onChange={(date) => {
+                setAppointment({ ...appointment, date: date ? date.toISOString().split('T')[0] : '' });
+              }}
+              minDate={today}
+              filterDate={filterDate}
+              placeholderText="Seleccionar fecha"
+              dateFormat="yyyy/MM/dd"
+              className={styles.datePicker}
             />
             {errors.date && <p className={styles.error}>{errors.date}</p>}
           </div>

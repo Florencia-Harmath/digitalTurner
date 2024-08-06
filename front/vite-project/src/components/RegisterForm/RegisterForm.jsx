@@ -5,8 +5,7 @@ import { validateRegisterForm } from "../../helpers/validate";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { registerSuccess } from "../../redux/userSlice";
-import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
 
 const RegisterForm = () => {
   const navigate = useNavigate();
@@ -65,95 +64,90 @@ const RegisterForm = () => {
   };
 
   return (
-    <>
-      <ToastContainer />
-      <div className={styles.container}>
-        <form className={styles.form} onSubmit={handleOnSubmit}>
-          <div className={styles.formGroup}>
-            <label>Nombre</label>
-            <input
-              type="text"
-              placeholder="Nombre Completo"
-              id="name"
-              name="name"
-              onChange={handleChange}
-              value={form.name}
-            />
-            {errors.name && <p className={styles.error}>{errors.name}</p>}
-          </div>
+    <div className={styles.container}>
+      <form className={styles.form} onSubmit={handleOnSubmit}>
+        <div className={styles.formGroup}>
+          <label>Nombre</label>
+          <input
+            type="text"
+            placeholder="Nombre Completo"
+            id="name"
+            name="name"
+            onChange={handleChange}
+            value={form.name}
+          />
+          {errors.name && <p className={styles.error}>{errors.name}</p>}
+        </div>
 
-          <div className={styles.formGroup}>
-            <label>Email</label>
-            <input
-              type="email"
-              placeholder="Email"
-              id="email"
-              name="email"
-              onChange={handleChange}
-              value={form.email}
-            />
-            {errors.email && <p className={styles.error}>{errors.email}</p>}
-          </div>
+        <div className={styles.formGroup}>
+          <label>Email</label>
+          <input
+            type="email"
+            placeholder="Email"
+            id="email"
+            name="email"
+            onChange={handleChange}
+            value={form.email}
+          />
+          {errors.email && <p className={styles.error}>{errors.email}</p>}
+        </div>
 
-          <div className={styles.formGroup}>
-            <label>Fecha de nacimiento</label>
-            <input
-              type="date"
-              placeholder="Fecha de nacimiento"
-              id="birthdate"
-              name="birthdate"
-              onChange={handleChange}
-              value={form.birthdate}
-            />
-            {errors.birthdate && (
-              <p className={styles.error}>{errors.birthdate}</p>
-            )}
-          </div>
+        <div className={styles.formGroup}>
+          <label>Fecha de nacimiento</label>
+          <input
+            type="date"
+            placeholder="Fecha de nacimiento"
+            id="birthdate"
+            name="birthdate"
+            onChange={handleChange}
+            value={form.birthdate}
+          />
+          {errors.birthdate && (
+            <p className={styles.error}>{errors.birthdate}</p>
+          )}
+        </div>
 
-          <div className={styles.formGroup}>
-            <label>Contraseña</label>
-            <input
-              type="password"
-              placeholder="Genere su contraseña, como mínimo 8 caracteres"
-              id="password"
-              name="password"
-              onChange={handleChange}
-              value={form.password}
-            />
-            {errors.password && (
-              <p className={styles.error}>{errors.password}</p>
-            )}
-          </div>
+        <div className={styles.formGroup}>
+          <label>Contraseña</label>
+          <input
+            type="password"
+            placeholder="Genere su contraseña, como mínimo 8 caracteres"
+            id="password"
+            name="password"
+            onChange={handleChange}
+            value={form.password}
+          />
+          {errors.password && <p className={styles.error}>{errors.password}</p>}
+        </div>
 
-          <div className={styles.formGroup}>
-            <label>Confirmar contraseña</label>
-            <input
-              type="password"
-              placeholder="Confirme su contraseña"
-              id="confirmPassword"
-              name="confirmPassword"
-              onChange={handleChange}
-              value={form.confirmPassword}
-            />
-            {errors.confirmPassword && (
-              <p className={styles.error}>{errors.confirmPassword}</p>
-            )}
-          </div>
+        <div className={styles.formGroup}>
+          <label>Confirmar contraseña</label>
+          <input
+            type="password"
+            placeholder="Confirme su contraseña"
+            id="confirmPassword"
+            name="confirmPassword"
+            onChange={handleChange}
+            value={form.confirmPassword}
+          />
+          {errors.confirmPassword && (
+            <p className={styles.error}>{errors.confirmPassword}</p>
+          )}
+        </div>
 
-          {errors.general && <p className={styles.error}>{errors.general}</p>}
+        {errors.general && <p className={styles.error}>{errors.general}</p>}
 
-          <button className={styles.buttonForm} type="submit">
-            REGISTRARSE
-          </button>
-        </form>
+        <button className={styles.buttonForm} type="submit">
+          REGISTRARSE
+        </button>
+      </form>
 
-        <img
-          className={styles.imgRegister}
-          src="/src/assets/img-register.png"
-          alt="img-home"
-        />
-      </div>
-    </>
+      <img
+        className={styles.imgRegister}
+        src="/src/assets/img-register.png"
+        alt="img-home"
+      />
+    </div>
   );
 };
 

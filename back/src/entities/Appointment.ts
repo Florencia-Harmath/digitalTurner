@@ -1,29 +1,26 @@
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { User } from "./User";
-const { v4: uuidv4 } = require('uuid');
-
 
 @Entity()
 export class Appointment {
-    @PrimaryGeneratedColumn()
-    id: string = new uuidv4();
+    @PrimaryGeneratedColumn("uuid")
+    id: string;
 
     @Column()
-    date: Date
+    date: Date;
 
     @Column()
-    time: string
+    time: string;
 
     @Column()
-    userId: string
+    userId: string;
 
     @Column()
-    status: string
+    status: string;
 
     @Column()
-    serviceName: string
+    serviceName: string;
 
-    @ManyToOne(()=> User, user => user.appointments)
+    @ManyToOne(() => User, user => user.appointments)
     user: User;
 }
-

@@ -14,8 +14,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { fetchUserData } from "./redux/authSlice";
 import PrivateRoute from "./PrivateRoute";
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css'; // Importa los estilos de Toastify
+
 
 function App() {
   const location = useLocation();
@@ -82,7 +81,6 @@ function App() {
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
       <Footer />
-      <ToastContainer /> {/* Añade el contenedor de Toastify */}
     </>
   );
 }
