@@ -54,7 +54,7 @@ const LoginForm = () => {
       <div className={styles.container}>
         <p className={styles.p}>
           ¿No tenés cuenta aún? -{" "}
-          <Link className={styles.link} to="/register">
+          <Link className={styles.link} to="/">
             Registrate
           </Link>
         </p>

@@ -1,6 +1,6 @@
 import styles from "./CardTurno.module.css";
 import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css'; // Importa los estilos de Toastify
+import 'react-toastify/dist/ReactToastify.css'; 
 
 const CardTurno = ({ turno, onCancelTurno }) => {
   if (!turno) {

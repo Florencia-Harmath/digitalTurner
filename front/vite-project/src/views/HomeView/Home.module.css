@@ -1,7 +1,10 @@
 .div {
-    padding: 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
     text-align: center;
-    margin-top: 50px;
+    margin: 90px;
   }
   
   .h1 {

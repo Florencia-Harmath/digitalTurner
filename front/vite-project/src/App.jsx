@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import NavBar from "./components/NavBar/NavBar";
 import MisTurnos from "./views/MisTurnosView/MisTurnos";
 import LoginForm from "./components/LoginForm/LoginForm";
@@ -23,8 +24,6 @@ function App() {
   const { token, isAuthenticated, user, isLoading } = useSelector(
     (state) => state.auth
   );
-
-  if(user) console.log(user)
   
   useEffect(() => {
     if (token && !isAuthenticated) {

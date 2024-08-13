@@ -1,7 +1,7 @@
 // src/components/Appointments/Appointments.jsx
 import styles from "./Appointments.module.css";
 import { useState } from "react";
-import api from "../../helpers/api"; // Importa la instancia configurada de Axios
+import api from "../../helpers/api"; 
 import { validateAppointment } from "../../helpers/validate.js";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
@@ -27,7 +27,7 @@ const Appointments = () => {
     "Corte de pelo",
     "Coloracion",
     "Depilacion laser",
-    "pestañas PxP",
+    "Pestañas PxP",
     "Corte de barba",
     "Limpieza facial",
     "Microblading cejas",
@@ -51,7 +51,8 @@ const Appointments = () => {
         .then((response) => {
           const res = response.data;
           toast.success("Turno solicitado con éxito");
-          dispatch(addAppointment(res));
+          dispatch(addAppointment(res)); // Aquí es donde se está agregando el turno al estado global
+          console.log("Turno solicitado:", res);
           navigate("/turnos");
         })
         .catch((error) => {

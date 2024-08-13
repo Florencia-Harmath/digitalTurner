@@ -1,10 +1,8 @@
-// src/redux/userSlice.js
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  user: null,
-  userAppointments: [], 
-  userId: null,
+  user: JSON.parse(localStorage.getItem('user')) || null,
+  userAppointments: JSON.parse(localStorage.getItem('userAppointments')) || [],
 };
 
 const userSlice = createSlice({
@@ -16,16 +14,21 @@ const userSlice = createSlice({
       state.userId = userData.id;  
       state.user = userData;  
       state.userAppointments = [];
-      console.log("Registro exitoso en estado global:", state.user);
+
+      localStorage.setItem('user', JSON.stringify(userData));
+      localStorage.setItem('userId', JSON.stringify(userData.id));
     },
 
     addAppointment(state, action) {
-      state.userAppointments = Array.isArray(action.payload) ? action.payload : []
-      console.log("turno cargado al estado global: ",state.userAppointments)
-    },
+      // Aseguramos que el turno se añade al array de turnos en el estado global
+      state.userAppointments = [...state.userAppointments, action.payload];
+      localStorage.setItem('userAppointments', JSON.stringify(state.userAppointments));
+      console.log("Turno añadido al estado global:", state.userAppointments);
+    },    
 
     cancelAppointments(state, action) {
-      state.userAppointments = state.userAppointments.filter(appointment => appointment.id !== action.payload)
+      state.userAppointments = state.userAppointments.filter(appointment => appointment.id !== action.payload);
+      localStorage.setItem('userAppointments', JSON.stringify(state.userAppointments));
     }
   }
 });
